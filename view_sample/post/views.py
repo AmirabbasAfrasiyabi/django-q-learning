@@ -1,8 +1,11 @@
 import csv
+import json
 from time import sleep
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, HttpResponsePermanentRedirect, FileResponse, \
-    StreamingHttpResponse
+
+from django.http import JsonResponse, FileResponse, StreamingHttpResponse, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
 
 
 def retrieve_posts(request):
@@ -22,11 +25,12 @@ def retrieve_posts(request):
     # return HttpResponsePermanentRedirect('/profile')
 
 
-def retrieve_post_info(request):
+def retrieve_post_info(request,pk,name=None):
+    print(f'Retrieve info called for post-{pk}: {name}')
     file = open('./static/static.jpg', 'rb')
     response = FileResponse(file , content_type='image/jpg')
     #downloadfile
-    # response['Content-Disposition'] = f'attachment; filename={file.name}'
+    response['Content-Disposition'] = f'attachment; filename="static-{pk}.jpg"'
     return response
 
 def generate_post_csv():
@@ -43,3 +47,28 @@ def retrieve_post_text(request):
 class CSVWriter:
     def write(self, value):
         return value
+
+@csrf_exempt
+# @login_required
+@require_http_methods(['POST'])
+def create_post(request):
+    # Form data
+    # post_title = request.POST.get('title')
+    # post_content = request.POST.get('content')
+    # print(f'Post {post_title} with content {post_content} created')
+
+    # json body
+    body = json.loads(request.body)
+    if 'title' not in body or 'content' not in body:
+        return JsonResponse({'message': 'title & body must be sent to create new post'}, status=400)
+    try:
+        print(f'Post {body["title"]} created with json mode')
+        # First type of creating model:
+        # Post.objects.create(title=body['title'], content=body['content'], author_id=2)
+        # Second type of creating model:
+        # p = Post(title=body['title'], author_id=2)
+        # p.content = body['content']
+        # p.save()
+    except KeyError as e:
+        print('body has no title')
+    return HttpResponse('post created', status=201)
