@@ -21,7 +21,7 @@ class Comment(models.Model):
         rejected = 'rejected', 'Rejected'
 
     text = models.CharField(max_length=512, null=False)
-    user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE)
+    user = models.ForeignKey(to=get_user_model(), on_delete=models.CASCADE , editable=True)
     created_date = models.DateField(auto_now_add=True)
     post = models.ForeignKey(to='Post', on_delete=models.CASCADE)
-    status = models.CharField(choices=CommentStatus.choices, default=CommentStatus.draft, max_length=9)
+    status = models.CharField(choices=CommentStatus.choices, default=CommentStatus.draft, max_length = 8)
