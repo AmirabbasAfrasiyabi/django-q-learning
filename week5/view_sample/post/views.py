@@ -42,7 +42,7 @@ class PostEncoder(json.JSONEncoder):
 
 def retrieve_post_info(request, pk, name=None):
     try:
-        post = Post.objects.get(pk=pk)
+        post= Post.objects.get(pk=pk)
     except Post.DoesNotExist:
         return HttpResponseNotFound(f'Post with id {pk} not found')
     return JsonResponse(post, encoder=PostEncoder, safe=False)
