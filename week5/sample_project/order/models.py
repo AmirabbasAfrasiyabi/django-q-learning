@@ -40,6 +40,7 @@ class Product(models.Model):
     property_one = models.FloatField(null=True)
     price = models.PositiveSmallIntegerField(null=False)
 
+
  # First method to implement many-to-many relation
 class ProductItem(models.Model):
     order = models.ForeignKey(to='Order', on_delete=models.CASCADE)
