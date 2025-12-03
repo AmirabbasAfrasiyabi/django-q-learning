@@ -6,7 +6,6 @@ def validate_between_zero_and_one(value):
         return value
     raise Exception('Value is not between 0 & 1')
 
-# Create your models here.
 class OrderInfo(models.Model):
     title = models.CharField(max_length=32, null=False, unique=True)
     created_date = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -21,14 +20,12 @@ class OrderInfo(models.Model):
         constraints = [UniqueConstraint(fields=['created_date', 'title'], name='created_title_unique')]
         ordering = ['-created_date']
 
-
 class Order(models.Model):
     class OrderStatus(models.IntegerChoices):
         draft = 0, 'draft'
         submitted = 1, 'submitted'
         rejected = 2, 'rejected'
         accepted = 3, 'accepted'
-
     complete = models.BooleanField(default=False, null=False)
     status = models.PositiveSmallIntegerField(choices=OrderStatus.choices, default=OrderStatus.draft)
     info = models.OneToOneField(to='OrderInfo', on_delete=models.PROTECT)
@@ -39,7 +36,6 @@ class Product(models.Model):
     name = models.CharField(max_length=64, null=False)
     property_one = models.FloatField(null=True)
     price = models.PositiveSmallIntegerField(null=False)
-
 
  # First method to implement many-to-many relation
 class ProductItem(models.Model):
