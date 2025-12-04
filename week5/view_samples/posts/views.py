@@ -43,6 +43,7 @@ def retrieve_post_file(request, pk, name=None):
     print(f'Retrieve info called for post-{pk}: {name}')
     file = open('./static/Screenshotmorning.png', 'rb')
     response = FileResponse(file, content_type='image/png')
+
     # For auto downloading
     response['Content-Disposition'] = f'attachment; filename="Screenshot-{pk}.png"'
     return response
