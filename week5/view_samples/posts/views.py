@@ -2,6 +2,7 @@ import csv
 import json
 from time import sleep
 
+from django.db.migrations import loader
 from django.http import JsonResponse, FileResponse, StreamingHttpResponse, HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -16,7 +17,7 @@ def retrieve_posts(request):
     return render(request, 'post_content.html', {'posts': posts})
 
     # second way to render template
-    template = loader.get_template('post_content.html')
+    # template = loader.get_template('post_content.html')
     # rendered_template = template.render({'post': post}, request)
     # return HttpResponse(rendered_template)
 
