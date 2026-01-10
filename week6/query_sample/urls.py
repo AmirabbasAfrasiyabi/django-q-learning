@@ -16,10 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from posts.views import retrive_posts , retrive_posts_exclude_sample , retrive_posts_with_equal_content_title , view_templates
+from posts.views import (retrive_posts ,
+                         retrive_posts_exclude_sample ,
+                         retrive_posts_with_equal_content_title ,
+                         add_template,
+                         )
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/', retrive_posts) ,
     path('posts/exclude/' , retrive_posts_exclude_sample),
     path('posts/sample/', retrive_posts_with_equal_content_title) ,
+    path('posts/add_template/',add_template) ,
 ]
