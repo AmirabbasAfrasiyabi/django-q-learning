@@ -1,12 +1,13 @@
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
 
 
 def home(request):
-    return HttpResponse('<h1>this is a Home Page</h1>')
+    return render(request, 'website/index.html')
 
 
 def about(request):
-    return HttpResponse('<h1>this is a about Page</h1>')
+    return render(request, 'website/about.html')
 
 def contact(request):
-    return HttpResponse('<h1>this is a contact Page</h1>')
+    return render(request, 'website/contact.html')
