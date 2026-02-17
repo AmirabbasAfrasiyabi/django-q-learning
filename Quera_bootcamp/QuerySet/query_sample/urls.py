@@ -17,10 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from posts.views import retrive_posts , retrive_posts_exclude_sample
+from posts.views import (retrive_posts ,
+                         retrive_posts_exclude_sample ,
+                         retrive_posts_with_equal_content_title,
+                         get_comments,
+                         add_templates
+                         )
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/',retrive_posts),
-    path('posts/exclude/',retrive_posts_exclude_sample)
+    path('posts/exclude/',retrive_posts_exclude_sample) ,
+    path('posts/same_title/',retrive_posts_with_equal_content_title),
+    path('posts/comment/',get_comments),
+    path('posts/templates/',add_templates),
 ]
