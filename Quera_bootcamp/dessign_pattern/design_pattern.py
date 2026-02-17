@@ -1,44 +1,54 @@
-"""singleton"""
 import random
 
+def Singleton(cls):
+    instances = {}
 
-class SingletonMeta(type):
-    """
-    The Singleton class can be implemented in different ways in Python. Some
-    possible methods include: base class, decorator, metaclass. We will use the
-    metaclass because it is best suited for this purpose.
-    """
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
 
-    _instances = {}
-
-    def __call__(cls, *args, **kwargs):
-        """
-        Possible changes to the value of the `__init__` argument do not affect
-        the returned instance.
-        """
-        if cls not in cls._instances:
-            instance = super().__call__(*args, **kwargs)
-            cls._instances[cls] = instance
-        return cls._instances[cls]
+    return get_instance
 
 
-class Y(metaclass=SingletonMeta):
-    def __init__(self ,*args, **kwargs):
-        print("Y , constructor called")
-        self.value = random.randint(1,100)
+@Singleton
+class Y:
+    def __init__(self, *args, **kwargs):
+        print(*args)
+        self.value = random.randint(1, 100)
 
 
 if __name__ == "__main__":
-    # The client code.
+    s1 = Y(3,5,6)
+    s2 = Y(9.10,5)
 
-    s1 = Y()
-    s2 = Y()
-
+    # print(s1.value , s2.value)# True
+    #
+    #
     # if id(s1) == id(s2):
     #     print("Singleton works, both variables contain the same instance.")
     # else:
     #     print("Singleton failed, variables contain different instances.")
 
+
+
+"""other solution for singleton"""
+class singletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class Y(metaclass=singletonMeta):
+    def __init__(self, *args, **kwargs):
+        print("y considerd called")
+        print(*args)
+        self.value = random.randint(1, 100)
+
+s1 = Y()
+s2 = Y()
+# print(s1.value , s2.value)# True
 
 
 """FACTORY"""
@@ -63,52 +73,52 @@ class Person:
     def create_from_string(*args, **kwargs):
         pass
 
-data = {'name': '<UNK>', 'age': 19}
+data = {'name': 'Ahmad', 'age': 19}
 person1= Person.create_from_dict(data)
 person2 = Person('ali',110)
-# print(person1,person2)
+print(person1,person2)
 
 """observer"""
-class subscriber:
-    def update(self, data):
-        pass
+# class subscriber:
+#     def update(self, data):
+#         pass
 
-class publisher:
-    subscribers = []
+# class publisher:
+#     subscribers = []
 
-    def subscribe(self, a):
-        self.subscribers.append(a)
+#     def subscribe(self, a):
+#         self.subscribers.append(a)
 
-    def notify_subcriber(self,data):
-        for s in self.subscribers:
-            s.update(data)
+#     def notify_subcriber(self,data):
+#         for s in self.subscribers:
+#             s.update(data)
 
-    def unsubscribe(self, a):
-        pass
+#     def unsubscribe(self, a):
+#         pass
 
-class SampleSubcriber(subscriber):
-    def update(self, data):
-        print(f'sample subcriber got data: {data}')
-
-
-class Sample2Subcriber(subscriber):
-    counter= 0
-    def update(self, data):
-        self.counter +=1
-        print(f'sample2 subcriber got data: {data} --counter: {self.counter}')
+# class SampleSubcriber(subscriber):
+#     def update(self, data):
+#         print(f'sample subcriber got data: {data}')
 
 
-s1 = SampleSubcriber()
-s2 = Sample2Subcriber()
+# class Sample2Subcriber(subscriber):
+#     counter= 0
+#     def update(self, data):
+#         self.counter +=1
+#         print(f'sample2 subcriber got data: {data} --counter: {self.counter}')
 
-p = publisher()
 
-p.subscribe(s1)
-p.notify_subcriber('notify')
-p.notify_subcriber('notify')
-p.notify_subcriber('notify')
-p.notify_subcriber('notify')
-p.subscribe(s2)
-p.notify_subcriber('notify2')
-p.notify_subcriber('notify2')
-p.notify_subcriber('notify2')
+# s1 = SampleSubcriber()
+# s2 = Sample2Subcriber()
+
+# p = publisher()
+
+# p.subscribe(s1)
+# p.notify_subcriber('notify')
+# p.notify_subcriber('notify')
+# p.notify_subcriber('notify')
+# p.notify_subcriber('notify')
+# p.subscribe(s2)
+# p.notify_subcriber('notify2')
+# p.notify_subcriber('notify2')
+# p.notify_subcriber('notify2')
