@@ -14,8 +14,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from posts.views import (retrive_posts ,
                          retrive_posts_exclude_sample ,
@@ -32,4 +34,6 @@ urlpatterns = [
     path('posts/same_title/',retrive_posts_with_equal_content_title),
     path('posts/comment/',get_comments),
     path('posts/templates/',add_templates),
-]
+    path('football/', include('football.urls'))
+              ] + \
+              static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
